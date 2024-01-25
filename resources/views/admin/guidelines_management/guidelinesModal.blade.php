@@ -208,7 +208,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-
+            {{-- <center> --}}
                 <div class="row mb-3">
                     <div class="col-lg-6 mx-auto">
                         <div class="mb-3">
@@ -238,8 +238,8 @@
                         </div>
                         <div class="mb-3">
                             <label class="fw-bold">Description:</label>
-                            <div>
-                                <span id="before_description"></span> 
+                            <div class="text-start" style="white-space: pre-wrap;">
+                                <p id="before_description"></p>
                             </div>
                         </div>
                     </div>
@@ -257,7 +257,9 @@
                         </div>
                         <div class="mb-3">
                             <label class="fw-bold">Description:</label>
-                            <span id="during_description"></span>
+                            <div class="text-start" style="white-space: pre-wrap;">
+                                <p id="during_description"></p>
+                            </div>
                         </div>
                     </div> 
                 </div>
@@ -274,12 +276,14 @@
                         </div>
                         <div class="mb-3">
                             <label class="fw-bold">Description:</label>
-                            
-                                <span id="after_description"></span>
+                            <div class="text-start" style="white-space: pre-wrap;">
+                                <p id="after_description"> </p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+        {{-- </center> --}}
         </div>
     </div>
 </div>
