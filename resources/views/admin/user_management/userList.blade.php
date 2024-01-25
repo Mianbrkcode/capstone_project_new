@@ -55,16 +55,6 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="data_table table-responsive ">
-                                <!-- <div class="card-header">
-                                    <h3>User Management</h3>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-12 margin-tb">
-                                        <div class="pull-right mb-2">
-                                            <a class="btn btn-primary" href="{{ route('users.create') }}">Add User</a>
-                                        </div>
-                                    </div>
-                                </div> -->
                                 <div class="card-header row align-items-center justify-content-between mb-4">
                                     <h3 class="m-0 col-6">User Management</h3>
                                     <div class="m-0 col-6">

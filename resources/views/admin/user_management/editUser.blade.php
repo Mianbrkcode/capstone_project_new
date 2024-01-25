@@ -76,9 +76,6 @@
                             </form>
                             {{-- first form end --}}
 
-                            {{-- Second form is modal--}}
-                            @include('layouts.modals.changepass')
-                            {{-- Second form end is modals --}}
 
                             {{-- Third form --}}
 
@@ -116,7 +113,7 @@
 
                                 <div class="col-6 col-md-4">
                                     <label class="form-label" for="userfrom">User From</label>
-                                    <select form="form1" class="form-control @error('userfrom') is-invalid @enderror" name="userfrom" id="userfrom">
+                                    <select form="form1" class="form-select @error('userfrom') is-invalid @enderror" name="userfrom" id="userfrom">
                                         <option value="{{ $user->userfrom }}">{{ $user->userfrom }}</option>
                                         <option value="MDRRMO">MDRRMO</option>
                                         <option value="BFP">BFP</option>
@@ -135,10 +132,10 @@
 
                                 <div class="col-6 col-md-4">
                                     <label for="role" class="form-label">Role:</label>
-                                    <select form="form1" class="form-control  @error('role') is-invalid @enderror" name="role" id="role">
+                                    <select form="form1" class="form-select   @error('role') is-invalid @enderror" name="role" id="role">
                                         <option value="{{ $user->role }}">{{ $user->role }}</option>
                                         <option value="Admin">Admin</option>
-                                        <option value="Sector">Sector</option>
+                                        <option value="Super Admin">Super Admin</option>
                                     </select>
                                     @error('role')
                                     <div class="text-danger" role="alert">
@@ -151,8 +148,6 @@
                             <div class="row form-group justify-content-start m-3">
                                 <div class="row justify-content-center mt-5">
                                     <button form="form1" type="submit" class="btn btn-success col-3"><i class="bi bi-check-square-fill"></i> SUBMIT</button>
-                                    <!-- <button type="button" class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#changepass-modal">change Password</button> -->
-                                    <!-- <button form="form3" id="resetPasswordBtn" type="button" class="btn btn-dark col-5">reset password</button> -->
                                 </div>
                             </div>
 

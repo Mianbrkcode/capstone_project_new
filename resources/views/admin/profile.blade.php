@@ -81,11 +81,11 @@
                                     <div class="row mt-3">
                                         <div class="col-md-12 mb-2">
                                             <label class="labels" for="name">Name: </label>
-                                            <input name="responder_name" type="text" class="form-control @error('confirm_password') is-invalid @enderror"
+                                            <input name="responder_name" type="text" class="form-control @error('responder_name') is-invalid @enderror"
                                                 placeholder="Change Name here"
                                                 value="{{ old('responder_name', auth()->user()->responder_name) }}">
 
-                                                @error('name')
+                                                @error('responder_name')
                                                     <div class="text-danger" role="alert">
                                                         <strong>{{ $message }}</strong>
                                                     </div>
@@ -98,6 +98,18 @@
                                                 value="{{ old('username', auth()->user()->username) }}">
 
                                                 @error('username')
+                                                    <div class="text-danger" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </div>
+                                                @enderror
+                                        </div>
+                                        <div class="col-md-12 mb-2">
+                                            <label for="email" class="labels">Email: </label>
+                                            <input name="email" type="email" class="form-control @error('email') is-invalid @enderror"
+                                                placeholder="Change Username here"
+                                                value="{{ old('email', auth()->user()->email) }}">
+
+                                                @error('email')
                                                     <div class="text-danger" role="alert">
                                                         <strong>{{ $message }}</strong>
                                                     </div>

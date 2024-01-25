@@ -72,7 +72,7 @@ class UserManagement extends Controller
 
         $token = " ";
         $defaultpassword = Str::random(12, 'abcdefghijklmnopqrstuvwxyz1234567890');
-        $status = 'pending';
+        $verified = 'pending';
 
         $request->validate([
             'responder_name' => 'required|string|max:100',
@@ -93,8 +93,9 @@ class UserManagement extends Controller
         $user->role = $request->role;
         $user->username = $username;
         $user->password = $defaultpassword;
-        $user->status = $status;
+        $user->verified = $verified;
         $user->token = $token;
+        $user->created_by = Auth::user()->responder_name;
         $user->save();
 
         $verificationLink = url('/verify/' . $token . '/' . $request->email . '/');

@@ -3,83 +3,110 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Emergency_Hotlines;
+
 use App\Models\Hotline;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Support\Facades\Auth;
 
 
 
 class HotlinesController extends Controller
 {
-    public function index(){
-       
-        $hotlines = Hotline::paginate(5);
-        return view('admin.contacts', ['hotlines' => $hotlines ]);
+    public function index(Request $request)
+    {
+        $query = Hotline::select(['hotlines_id', 'hotlines_number', 'userfrom', 'responder_name']);
+
+        if ($request->has('search') && !empty($request->input('search')['value'])) {
+            $searchValue = $request->input('search')['value'];
+
+            $query->where(function ($q) use ($searchValue) {
+                $q->where('hotlines_id', 'like', '%' . $searchValue . '%')
+                    ->orWhere('hotlines_number', 'like', '%' . $searchValue . '%')
+                    ->orWhere('userfrom', 'like', '%' . $searchValue . '%')
+                    ->orWhere('responder_name', 'like', '%' . $searchValue . '%');
+            });
+        }
+
+        $totalRecords = $query->count();
+
+        if ($request->has('length') && $request->input('length') != -1) {
+            $length = $request->input('length');
+            $query->skip($request->input('start'))->take($length);
+        }
+
+        $hotlines = $query->get();
+
+        $formattedHotlines = $hotlines->map(function ($hotline) {
+            return [
+                'hotlines_id' => $hotline->hotlines_id,
+                'hotlines_number' => $hotline->hotlines_number,
+                'userfrom' => $hotline->userfrom,
+                'responder_name' => $hotline->responder_name,
+            ];
+        });
+
+        $jsonData = [
+            'data' => $formattedHotlines,
+            'recordsTotal' => $totalRecords,
+            'recordsFiltered' => $totalRecords,
+        ];
+
+        if ($request->wantsJson()) {
+            return response()->json($jsonData);
+        }
+
+        return view('admin.contacts', $jsonData);
     }
 
-    public function addHotlines(Request $request){
-
+    public function store(Request $request)
+    {
         $request->validate([
-            'hotlines_number' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
-            'userfrom' => 'required',
-            'responder_id' => 'required|integer'
+            'hotline_number' => 'required',
+            'user_from' => 'required',
         ]);
 
-        $hotlines = new Hotline();
+        $user = Auth::user();
 
-        $hotlines->hotlines_number	 = $request->hotlines_number;
-        $hotlines->userfrom	 = $request->userfrom;
-        $hotlines->responder_id	= $request->responder_id;
-        $hotlines->responder_name	= $request->responder_name;
-        $hotlines->save();
+        $hotline = new Hotline;
+        $hotline->hotlines_number = $request->input('hotline_number');
+        $hotline->userfrom = $request->input('user_from');
+        $hotline->responder_id = $user->id;
+        $hotline->responder_name = $user->responder_name;
 
-        return redirect()->route('hotlines.index')->with('success', 'successfully added');
+        $hotline->save();
+        $hotline->save();
+
+        return response()->json(['message' => 'Hotline added successfully', 'success' => true]);
     }
 
-    public function hotlinesDelete($hotlines_id)
+    public function edit(Hotline $hotline)
     {
-        // Delete a specific record
-        $number = Hotline::find($hotlines_id);
-        $number->delete();
-        return redirect()->route('hotlines.index')->with('success', 'Record deleted successfully.');
+        return response()->json(['data' => $hotline]);
     }
 
-    public function hotlinesEdit(Request $request, $hotlines_id)
+    public function update(Request $request, Hotline $hotline)
     {
-
-        $number = Hotline::find($hotlines_id);
-
-        $validator = Validator::make($request->all(), [
-            'hotlines_number' => 'required',
-            'userfrom' => 'required',
+        $request->validate([
+            'hotline_number' => 'required',
+            'user_from' => 'required',
         ]);
 
-        if ($validator->fails()) {
+        $hotline->update([
+            'hotlines_number' => $request->input('hotline_number'),
+            'userfrom' => $request->input('user_from'),
+        ]);
 
-            return redirect()
-                ->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
-        else 
-        {
-            $number->update([
-                'hotlines_number' => $request->input('hotlines_number'),
-                'userfrom' => $request->input('userfrom'),
-                ]);
-
-            return redirect()->back()->with('success', 'Hotline Update Successful');
-
-        }
-
-    
-    // Update password if a new one is provided
-
-        
-        
+        return response()->json(['message' => 'Hotline updated successfully']);
     }
+    public function destroy(Hotline $hotline)
+    {
+        try {
+            $hotline->delete();
 
-
+            return response()->json(['message' => 'Hotline deleted successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to delete hotline'], 500);
+        }
+    }
 }

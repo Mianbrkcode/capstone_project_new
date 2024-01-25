@@ -199,3 +199,16 @@ body .login-container{
 
 /* END LOGIN CSS */
 
+/* GUIDELINES VIEW CSS */
+
+.image-guidlines-view{
+    width: 500px;
+    height: auto;
+}
+
+/* END GUIDELINES VIEW CSShtml */
+
+
+.dataTables_scrollHeadInner, .dataTable {
+    width: 100% !important;
+}

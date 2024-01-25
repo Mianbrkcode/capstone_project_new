@@ -19,121 +19,43 @@
         @include('layouts.admin_nav')
         {{-- navigation bar --}}
 
-
         <main class="content px-3 py-2">
-
-            <!-- <div class="container-fluid mt-3">
-                <div class="row ">
-                    <div class="col-12 text-start">
-                        <ul class="list-inline">
-                            <li class="list-inline-item">
-                                <a href="{{ route('admin_dashboard') }}" class="text-muted">Dashboard/</a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="{{ route('hotlines.index') }}" class="text-muted">Manage Hotlines</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div> -->
             <div class="container-fluid mt-3">
                 <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
+                    <ol class="breadcrumb mt-3">
                         <li class="breadcrumb-item"><a href="{{ route('admin_dashboard') }}">Dashboard</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Manage Hotlines</li>
+                        <li class="breadcrumb-item active" aria-current="page">Hotlines</li>
                     </ol>
                 </nav>
             </div>
 
-
-            <div class="container-fluid ">
-                {{-- <div class="row">
-                        <div class="col-4">
-                           <div class="card  mr-2 data_table">
-                                        <div class=" card-header text-align center">
-                                            <h4>Manage Hotlines</h4>
-                                        </div>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <form action="{{ route('hotlinesAdd')}}" method="POST">
-                @csrf
-                <div class="form-group">
-                    <label class="form-label" for=""><b>Add Mobile Number</b></label>
-                    <input type="text" class="form-control" placeholder="e.g +63909.." name="hotlines_number">
-                    <input type="hidden" class="form-control" name="responder_id" value="{{ auth()->user()->id }}">
-                    <input type="hidden" class="form-control" name="responder_name" value="{{ auth()->user()->responder_name }}">
-                    @error('hotlines_number')
-                    <div class="text-danger" role="alert">
-                        <strong>{{ $message }}</strong>
+            <div class="container-fluid">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center mb-5">
+                        <h4 class="m-0">HOTLINES</h4>
+                        <button type="button" class="btn btn-success m-0" data-bs-toggle="modal" data-bs-target="#contactModal">
+                            <i class="bi bi-plus-square-fill"></i> ADD
+                        </button>
                     </div>
-                    @enderror
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="hotlineFrom"><b>Hotline From</b></label>
-                    <select class="form-select" name="userfrom" id="hotlineFrom">
-                        <option value="MDRRMO">MDRRMO</option>
-                        <option value="BFP">BFP</option>
-                        <option value="PNP">PNP</option>
-                        <option value="CAY POMBO">CAY POMBO</option>
-                    </select>
-                    <div class="align-items-center">
-                        <button type="submit" class="w-full mt-2 btn btn-success">ADD NUMBER</button>
+                    <div class="card-body table-responsive">
+                        <table class="table table-striped table-bordered" id="hotline-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Hotlines No.</th>
+                                    <th>User From</th>
+                                    <th>Posted By</th>
+                                    <th class="no-export text-center">Action</th>
+                                </tr>
+                            </thead>
+                        </table>
                     </div>
                 </div>
-                </form>
             </div>
-    </div>
-</div>
-</div>
-<div class="col-8">
-    <div class="data_table table-responsive ">
-        <div>
-            <h4>List of Hotlines</h4>
-        </div>
-        <table id="customtable" class="table table-striped table-bordered " style="width:100%">
-            <thead>
-                <tr>
-                    <th>Hotlines ID</th>
-                    <th>Emergency number</th>
-                    <th>User From</th>
-                    <th>Posted By</th>
-                    <th>Created_at</th>
-                    <th width="150px">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ( $hotlines as $number )
-                <tr>
-                    <td>{{ $number->hotlines_id }}</td>
-                    <td>{{ $number->hotlines_number }}</td>
-                    <td>{{ $number->userfrom }}</td>
-                    <td>{{ $number->responder_name }}</td>
-                    <td>{{ $number->created_at }}</td>
-                    <td>
-                        <form action="{{route('hotlinesDelete', $number->hotlines_id) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-
-                            <button><a class="text-success" data-bs-toggle="modal" data-bs-target="#editContacts"><i class="bi bi-pencil-square w-2"></i></a></button>
-                            <button type="submit" class="text-danger m-0"><i class="bi bi-trash3 w-2"></i></button>
-                        </form>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-        {{ $hotlines->links('pagination::bootstrap-5') }}
-    </div>
-</div>
-</div> --}}
-
-<div>
-    <livewire:contacts>
-</div>
-</div>
-</main>
+        </main>
+        
 <!-- Modal -->
-@include('layouts.modals.editphone')
+@include('layouts.modals.contactsmodals')
 <!--End modals-->
 
 <footer class="footer">
@@ -170,11 +92,158 @@
 @section('scripts')
 
 <script>
-    window.addEventListener('close-modal', event => {
-        $('#contactModal').modal('hide');
-        $('#updateContactModal').modal('hide');
-        $('#deleteContactModal').modal('hide');
-    })
+    $(document).ready(function() {
+        var hotlinesTable = $('#hotline-table').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                url: "{{ route('hotlines.index') }}",
+                "data": function(d) {
+                    if (d.buttons) {
+                        d.action = 'export';
+                    }
+                }
+            },
+            "columns": [{
+                    data: 'hotlines_id',
+                    name: 'hotlines_id'
+                },
+                {
+                    data: 'hotlines_number',
+                    name: 'hotlines_number'
+                },
+                {
+                    data: 'userfrom',
+                    name: 'userfrom'
+                },
+                {
+                    data: 'responder_name',
+                    name: 'responder_name'
+                },
+                {
+                    data: null,
+                    render: function(data, type, row) {
+                        return `
+                        <li class="nav-item dropdown text-center">
+                            <a href="#" data-bs-toggle="dropdown" class="nav-icon pe-md-0">
+                                <i class="bi bi-three-dots-vertical"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <a href="#" class="text-success dropdown-item edit-hotline" data-bs-toggle="modal" data-bs-target="#updateContactModal" data-id="${row.hotlines_id}">
+                                    <i class="bi bi-pencil-square w-2"></i>
+                                    Edit
+                                </a>
+                                <a href="#" class="text-danger dropdown-item delete-hotline" data-id="${row.hotlines_id}">
+                                    <i class="bi bi-trash3 w-2"></i>
+                                    Delete
+                                </a>
+                            </div>
+                        </li>
+                    `;
+                    },
+                    orderable: false
+                }
+            ],
+            buttons: [{
+                    extend: 'excelHtml5',
+                    exportOptions: {
+                        columns: ':not(.no-export)'
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    exportOptions: {
+                        columns: ':not(.no-export)'
+                    }
+                },
+                {
+                    extend: 'print',
+                    exportOptions: {
+                        columns: ':not(.no-export)'
+                    }
+                }
+            ],
+            "scrollY": "400px",
+            "lengthMenu": [
+                [10, 25, 50, -1],
+                [10, 25, 50, "All"]
+            ],
+            "paging": true,
+            "lengthChange": true,
+            "dom": '<"d-flex justify-content-between align-items-center mb-5"lB<"d-flex align-items-center">f>t<"d-flex justify-content-end mt-3">p',
+        });
+
+        $('#hotline-table').on('click', '.edit-hotline', function() {
+            var hotlineId = $(this).data('id');
+
+            $.ajax({
+                type: 'GET',
+                url: "{{ url('admin/hotlines') }}/" + hotlineId + "/edit",
+                success: function(response) {
+                    var hotline = response.data;
+                    $('#updateContactModal #hotline_id').val(hotline.hotlines_id);
+                    $('#updateContactModal #hotline_number').val(hotline.hotlines_number);
+                    $('#updateContactModal #user_from').val(hotline.userfrom);
+                    $('#updateContactModal #responder_name').val(hotline.responder_name);
+                    $('#updateContactModal #responder_id').val(hotline.responder_id);
+
+                    $('#updateContactModal').modal('show');
+                },
+                error: function(error) {
+                    console.log('Error fetching hotline details:', error);
+                }
+            });
+        });
+
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $('#hotline-table').on('click', '.delete-hotline', function(e) {
+            e.preventDefault();
+
+            var hotlineId = $(this).data('id');
+
+            // Use SweetAlert for confirmation
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'You won\'t be able to revert this!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Perform the delete operation
+                    $.ajax({
+                        type: 'DELETE',
+                        url: '{{ route("hotlines.destroy", ["hotline" => "_hotlineId_"]) }}'.replace('_hotlineId_', hotlineId),
+                        success: function(response) {
+                            Swal.fire(
+                                'Deleted!',
+                                'Hotline has been deleted.',
+                                'success'
+                            );
+
+                            var oTable = $('#hotline-table').dataTable();
+                            oTable.fnDraw(false);
+                        },
+                        error: function(error) {
+                            Swal.fire(
+                                'Error!',
+                                'Failed to delete hotline.',
+                                'error'
+                            );
+                        }
+                    });
+                }
+            });
+        });
+    });
 </script>
 
 @endsection

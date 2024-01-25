@@ -9,6 +9,7 @@ class Report extends Model
 {
     use HasFactory;
     public $timestamps = false;
+    protected $primaryKey = 'report_id';
     protected $table = "reports";
     protected $fillabe =[
         'dateandTime',

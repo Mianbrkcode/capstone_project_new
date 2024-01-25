@@ -15,39 +15,53 @@ class AcceptedReportController extends Controller
 {
     public function index(Request $request)
     {
-        
-        // if ($request->ajax()) {
-        //     $data = Report::select('*');
-  
-        //     if ($request->filled('from_date') && $request->filled('to_date')) {
-        //         $data = $data->whereBetween('created_at', [$request->from_date, $request->to_date]);
-        //     }
-  
-        //     return Datatables::of($data)
-        //             ->addIndexColumn()
-        //             ->addColumn('action', function($row){
-       
-        //                     $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">View</a>';
-      
-        //                     return $btn;
-        //             })
-        //             ->rawColumns(['action'])
-        //             ->make(true);
-        // }
+        $query = Report::select(['report_id', 'dateandTime', 'emergency_type', 'resident_name', 'locationName'])->where('status' , '1');
 
-        
-        return view('admin.acceptedreports');
-    }
+        if ($request->has('search') && !empty($request->input('search')['value'])) {
+            $searchValue = $request->input('search')['value'];
 
-    public function export() 
-    {
-        return Excel::download(new UsersExport, 'users.xlsx');
-    }
-
-    public function exportcsv() 
-        {
-            return Excel::download(new UsersExport, 'reports.csv', \Maatwebsite\Excel\Excel::CSV);
+            $query->where(function ($q) use ($searchValue) {
+                $q->where('report_id', 'like', '%' . $searchValue . '%')
+                    ->orWhere('dateandTime', 'like', '%' . $searchValue . '%')
+                    ->orWhere('emergency_type', 'like', '%' . $searchValue . '%')
+                    ->orWhere('resident_name', 'like', '%' . $searchValue . '%')
+                    ->orWhere('locationName', 'like', '%' . $searchValue . '%');
+            });
         }
+
+        $totalRecords = $query->count();
+
+        if ($request->has('length') && $request->input('length') != -1) {
+            $length = $request->input('length');
+            $query->skip($request->input('start'))->take($length);
+        }
+
+        $reports = $query->get();
+
+        $formattedHotlines = $reports->map(function ($reports) {
+            return [
+                'report_id' => $reports->report_id,
+                'dateandTime' => $reports->dateandTime,
+                'emergency_type' => $reports->emergency_type,
+                'resident_name' => $reports->resident_name,
+                'locationName' => $reports->locationName
+            ];
+        });
+
+        $jsonData = [
+            'data' => $formattedHotlines,
+            'recordsTotal' => $totalRecords,
+            'recordsFiltered' => $totalRecords,
+        ];
+
+        if ($request->wantsJson()) {
+            return response()->json($jsonData);
+        }
+
+        return view('admin.acceptedreports' , $jsonData);
+    }
+
+
 }
 
 

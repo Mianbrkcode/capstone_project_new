@@ -39,12 +39,19 @@ class ProfileController extends Controller
                 'max:255',
                 Rule::unique('users')->ignore($user->id), // Ignore the current user's email
             ],
-            // Add more validation rules for other fields
+            'email' => [
+                'required',
+                'email',
+                'string',
+                'max:255',
+                Rule::unique('users')->ignore($user->id), // Ignore the current user's email
+            ],
         ]);
 
         $user->update([
             'responder_name' => $request->input('responder_name'),
             'username' => $request->input('username'),
+            'email' => $request->input('email'),
             // Add more fields as needed
         ]);
         return redirect()->back()->with('success-bt', 'Profile updated successfully');

@@ -22,6 +22,8 @@ return new class extends Migration
             $table->enum('verified' , ['pending' ,'active'])->default('pending');
             $table->string('token')->nullable();
             $table->string('password');
+            $table->string('created_by');
+
         });
 
     }

@@ -93,16 +93,25 @@ Route::prefix('admin')->middleware(['auth','superadmin'])->group(function()
 
 
     //For Reports
-    Route::get('/activereports', [ReportController::class, 'show'])->name('reports'); 
+    Route::get('/activereports', [ReportController::class, 'index'])->name('reports');
+    Route::post('/reports/delete-report', [ReportController::class,'destroy']);
+    Route::get('/reports/{report_id}', [ReportController::class, 'show'])->name('reports.show');
+    
+    //accepted reports
     Route::get('/acceptedreports', [AcceptedReportController::class, 'index'])->name('accepted_reports'); 
-    Route::get('/acceptedreports/exports', [AcceptedReportController::class, 'export'])->name('reports.export'); 
-    Route::get('/acceptedreports/exportscsv', [AcceptedReportController::class, 'exportcsv'])->name('reports.csv'); 
     //contacts
-    Route::get('/hotlines', [HotlinesController::class, 'index'])->name('hotlines.index'); 
+    Route::get('hotlines', [HotlinesController::class, 'index'])->name('hotlines.index');
+    Route::resource('hotlines', HotlinesController::class);
+    Route::get('/hotlines/{hotline}/edit', [HotlinesController::class, 'edit'])->name('hotlines.edit');
+    Route::patch('/hotlines/{hotline}', [HotlinesController::class, 'update'])->name('hotlines.update');
+    Route::delete('/hotlines/{hotline}', [HotlinesController::class, 'destroy'])->name('hotlines.destroy');
+    
     //guidelines
-
     Route::get('/guidelines', [GuidelinesController::class, 'index'])->name('guidelines.index');
-    Route::get('/guidelines/uploads', [GuidelinesController::class, 'uploadGuidelines'])->name('guidelines.upload');
+    Route::post('/store-guidelines', [GuidelinesController::class, 'storeGuidelines'])->name('guidelines.store');
+    Route::get('/guidelines/{guidelines}/edit', [GuidelinesController::class, 'edit'])->name('guidelines.edit');
+    Route::post('/guidelines/{guidelinesID}', [GuidelinesController::class, 'updateGuidelines'])->name('guidelines.update');
+    Route::delete('admin/guidelines/{guidelinesID}', [GuidelinesController::class, 'destroy'])->name('guidelines.destroy');
     
 });
 

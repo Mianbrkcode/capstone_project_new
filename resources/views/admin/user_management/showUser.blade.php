@@ -80,6 +80,10 @@
                                         <label for="role" class="form-label">Role:</label>
                                         <p>{{$user->role}}</p>
                                     </div>
+                                    <div class="col-6 col-md-4">
+                                        <label for="role" class="form-label">Created By:</label>
+                                        <p>{{$user->created_by}}</p>
+                                    </div>
                                 </div>
                         </div>
                     </div>
