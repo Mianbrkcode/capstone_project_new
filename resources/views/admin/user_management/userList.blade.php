@@ -4,7 +4,7 @@
 @section('header')
 
 @section('title')
-
+E-ligtas | User Management
 @endsection
 
 @endsection
@@ -26,18 +26,12 @@
         <main class="content px-3 py-2">
 
             <div class="container-fluid mt-3">
-                <div class="row ">
-                    <div class="col-12 text-start">
-                        <ul class="list-inline">
-                            <li class="list-inline-item">
-                                <a href="{{ route('admin_dashboard') }}" class="text-muted"> Dashboard > </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="{{ route('users.index') }}" class="text-muted"> User Management </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mt-3">
+                        <li class="breadcrumb-item"><a class="text-muted" href="{{ route('admin_dashboard') }}">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">User Management</li>
+                    </ol>
+                </nav>
             </div>
 
             @if ($message = Session::get('success'))
@@ -152,7 +146,14 @@
                 },
                 {
                     data: 'verified',
-                    name: 'verified'
+                    name: 'verified',
+                    render: function (data, type, row){
+                        if(data ==='active'){
+                            return '<span class="badge rounded-pill text-bg-success">Verified</span>';
+                        }else{
+                            return '<span class="badge rounded-pill text-bg-danger">Unverified</span>';
+                        }
+                    }
                 },
                 {
                     data: 'action',

@@ -91,6 +91,22 @@ a.sidebar-link {
     font-size: 0.875rem;
 }
 
+.sidebar-link:hover{
+    background-color: #fff;
+    color:blue;
+}
+
+
+.iconNotif:hover {
+    color: white;
+    background-color: #3c6cd8;
+    border-radius: 30%;
+}
+
+
+
+
+
 .sidebar-link[data-bs-toggle="collapse"]::after {
     border: solid;
     border-width: 0 .075rem .075rem 0;
@@ -112,6 +128,8 @@ a.sidebar-link {
 .avatar {
     height: 40px;
     width: 40px;
+    border-radius: 50%;
+
 }
 
 .navbar-expand .navbar-nav {
@@ -190,11 +208,12 @@ a.sidebar-link {
 
 /* LOGIN CSS */
 
-body .login-container{
-    background-image: url(../images/bg1.png);
+body{
+    background-image: url(../images/bg-mdrrmo.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+    max-height: 100%;
 }
 
 /* END LOGIN CSS */
@@ -205,6 +224,14 @@ body .login-container{
     width: 500px;
     height: auto;
 }
+
+.video-guidelines-view{
+    width: 500px;
+    height: auto;
+}
+
+
+
 
 /* END GUIDELINES VIEW CSShtml */
 

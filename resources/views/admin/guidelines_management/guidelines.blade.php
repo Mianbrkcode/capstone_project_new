@@ -4,7 +4,7 @@
 @section('header')
 
     @section('title')
-      
+        E-ligtas | Guidelines Management
     @endsection
 
 @endsection
@@ -27,7 +27,7 @@
             <div class="container-fluid mt-3">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb mt-3">
-                        <li class="breadcrumb-item"><a href="{{ route('admin_dashboard') }}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a class="text-muted" href="{{ route('admin_dashboard') }}">Dashboard</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Disaster Guidelines</li>
                     </ol>
                 </nav>
@@ -36,13 +36,13 @@
             <div class="container-fluid">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center mb-5">
-                        <h4 class="m-0">DISASTER GUIDELINES</h4>
+                        <h3 class="m-0">DISASTER GUIDELINES</h3>
                         <button type="button" class="btn btn-success m-0" data-bs-toggle="modal" data-bs-target="#addGuidelinesModal">
                             <i class="bi bi-plus-square-fill"></i> ADD
                         </button>
 
                     </div>
-                    <div class="card-body table-responsive">
+                    <div class="card-body">
                         <table class="table table-striped table-bordered" id="guidelines-table">
                             <thead>
                                 <tr>
@@ -241,6 +241,9 @@
                     $('#viewGuidelinesModal #after_headings').text(guideline.after.headings);
                     appendMediaElement('viewGuidelinesModal #after_file', afterURL);
                     $('#viewGuidelinesModal #after_description').text(guideline.after.description);
+
+                    // $('#viewReportsModal #profile_image').html('<img style="width: 200px;height:auto;" class="rounded" src="' + profilePicture + '">');
+                    // $('#viewReportsModal #image_evidence').html('<img style="width:100%;height:auto" src="' + imgEvidence + '">');
                 },
                 error: function(error) {
                     console.error(error.responseText);

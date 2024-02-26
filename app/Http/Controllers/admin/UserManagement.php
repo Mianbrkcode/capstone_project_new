@@ -4,7 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Mail\RegisterMail;
+use App\Mail\ResetPassword;
 use App\Models\User;
 use App\Mail\NewUser;
 use Illuminate\Support\Facades\Mail;
@@ -14,6 +14,7 @@ use Illuminate\Validation\Rules\Password;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Report;
 
 class UserManagement extends Controller
 {
@@ -25,8 +26,13 @@ class UserManagement extends Controller
     public function index()
     {
 
-        $responder = Auth::id();
-        $data = User::where('id', '!=', $responder)->get();
+        if(Auth::user()->userfrom == 'MDRRMO'){
+            $responder = Auth::id();
+            $data = User::where('id', '!=', $responder)->get();
+        }elseif(Auth::user()->userfrom != 'MDRRMO'){
+            $responder = Auth::id();
+            $data = User::where('id', '!=', $responder)->where('userfrom' , auth()->user()->userfrom)->get();
+        }
 
         if (request()->ajax()) {
             return datatables()->of($data)
@@ -35,7 +41,8 @@ class UserManagement extends Controller
                 ->addIndexColumn()
                 ->make(true);
         }
-        return view('admin.user_management.userList');
+        $totalActiveReport = Report::where('status','0')->count();
+        return view('admin.user_management.userList' , compact('totalActiveReport'));
     }
 
     /**
@@ -45,7 +52,8 @@ class UserManagement extends Controller
      */
     public function create()
     {
-        return view('admin.user_management.addUser');
+        $totalActiveReport = Report::where('status','0')->count();
+        return view('admin.user_management.addUser' , compact('totalActiveReport'));
     }
 
     /**
@@ -114,14 +122,16 @@ class UserManagement extends Controller
 
 
     public function show(User $user)
-    {
-        return view('admin.user_management.showUser', compact('user'));
+    {   
+        $totalActiveReport = Report::where('status','0')->count();
+        return view('admin.user_management.showUser', compact(['user' , 'totalActiveReport']));
     }
 
 
     public function edit(User $user)
-    {
-        return view('admin.user_management.editUser', compact('user'));
+    {   
+        $totalActiveReport = Report::where('status','0')->count();
+        return view('admin.user_management.editUser', compact('user' , 'totalActiveReport'));
     }
 
     /**
@@ -138,7 +148,7 @@ class UserManagement extends Controller
             'responder_name' => 'required|string|max:100',
             'email' => 'required|email|max:75',
             'userfrom' => 'required|string|max:100',
-            'role' => 'required|string|max:100'
+            'role' => 'required|string|max:100',
         ]);
 
         $user = User::find($id);
@@ -147,7 +157,7 @@ class UserManagement extends Controller
             'responder_name' => $request->input('responder_name'),
             'email' => $request->input('email'),
             'userfrom' => $request->input('userfrom'),
-            'role' => $request->input('role')
+            'role' => $request->input('role'),
         ]);
 
         return redirect()->route('users.index')->with('success', ' Updated successfully');
@@ -167,23 +177,37 @@ class UserManagement extends Controller
 
         $passreset = Str::random(12, 'abcdefghijklmnopqrstuvwxyz123456789');
 
+        $user = User::find($id);
+
+        $user->update([
+            
+            'password' => $user->password = $passreset
+        ]);
+
+        $mailSubject = 'E-ligtas: Password Reset Successful';
+        $mailData = [
+            'responder_name' => $user->responder_name,
+            'username' => $user->username,
+            'email' => $request->email,
+            'password' => $user->password = $passreset
+        ];
+        Mail::to($request->email)->send(new ResetPassword($mailSubject, $mailData));
+        return redirect()->back()->with('success', 'Reset password successful');
+
+    }
+
+    public function verifyuser($id)
+    {
+        $verifyuser = 'active';
 
         $user = User::find($id);
 
         $user->update([
-            'responder_name' => $request->input('responder_name'),
-            'email' => $request->input('email'),
-            'password' => $user->password = $passreset
+            
+            'verified' => $user->verified = $verifyuser
         ]);
 
-        $mailAdduser = 'E-ligtas, Requested Reset of Password';
-        $addUserdata = [
-            'responder_name' => $request->responder_name,
-            'email' => $request->email,
-            'password' => $user->password = $passreset
-        ];
-        Mail::to($request->email)->send(new NewUser($mailAdduser, $addUserdata));
-        return redirect()->back()->with('success', 'Successful Password Reset');
+        return redirect()->back()->with('success', 'User Verified');
     }
 
 
@@ -193,14 +217,7 @@ class UserManagement extends Controller
 
         $user = User::find($id);
 
-        //  $request->validate([
-        //     'password_confirmation' => 'required',
-        //     'password' => [
-        //     'required',
-        //     'string', 'confirmed',
-        //     Password::min(8)->letters()->numbers()->mixedCase()->symbols()
-        // ],
-        // ]);
+        
 
         $validator = Validator::make($request->all(), [
             'password_confirmation' => 'required',

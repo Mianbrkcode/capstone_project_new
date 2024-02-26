@@ -10,6 +10,7 @@ use App\Models\GuidelinesBefore;
 use App\Models\GuidelinesDuring;
 use App\Models\GuidelinesAfter;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Report;
 
 
 class GuidelinesController extends Controller
@@ -59,8 +60,8 @@ class GuidelinesController extends Controller
             return response()->json($jsonData);
         }
 
-
-        return view('admin.guidelines_management.guidelines', $jsonData);
+        $totalActiveReport = Report::where('status','0')->count();
+        return view('admin.guidelines_management.guidelines', $jsonData , compact('totalActiveReport'));
     }
 
 

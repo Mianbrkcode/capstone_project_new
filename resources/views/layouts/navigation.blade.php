@@ -9,7 +9,7 @@
             <li class="nav-item dropdown">
                 <a href="#" data-bs-toggle="dropdown" class="nav-icon pe-md-0">
                     @if (Auth::User()->userfrom === 'MDRRMO')
-                        <img src="{{ asset('images/medic.jpg') }}" class="avatar img-fluid rounded" alt="">
+                        <img src="{{ asset('images/rescuer_img.png') }}" class="avatar img-fluid rounded" alt="">
                     @elseif ( Auth::User()->userfrom === 'PNP')
                         <img src="{{ asset('images/police.png') }}" class="avatar img-fluid rounded" alt="">
                     @elseif ( Auth::User()->userfrom === 'BFP')

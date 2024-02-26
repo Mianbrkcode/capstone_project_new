@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\Rule;
+use App\Models\Report;
 
 class ProfileController extends Controller
 {
@@ -17,8 +18,8 @@ class ProfileController extends Controller
         $id = Auth::user()->id;
         $profiledata = User::find($id);        
         
-        return view('sector.profile', compact('profiledata'));
-
+        $totalActiveReport = Report::where('status','0')->where('userfrom', auth()->user()->userfrom)->count();
+        return view('sector.profile', compact([ 'profiledata' ,'totalActiveReport']));
     }
 
     

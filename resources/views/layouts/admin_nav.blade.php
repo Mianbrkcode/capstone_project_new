@@ -5,11 +5,16 @@
     <h3 class="m-2">{{ auth()->user()->userfrom}}</h3>
     <div class="navbar-collapse navbar">
         <ul class="navbar-nav">
+            <div id="autorefresh">
+                <a href="{{ route('reports') }}" class="btn link iconNotif">
+                    <i class="bi bi-bell"></i>{{ $totalActiveReport }}
+                </a>
+            </div>
             <p class="m-2">{{ auth()->user()->responder_name}}</p>
             <li class="nav-item dropdown">
                 <a href="#" data-bs-toggle="dropdown" class="nav-icon pe-md-0">
                     @if (Auth::User()->userfrom === 'MDRRMO')
-                        <img src="{{ asset('images/medic.jpg') }}" class="avatar img-fluid rounded" alt="">
+                        <img src="{{ asset('images/rescuer_img.png') }}" class="avatar img-fluid rounded" alt="">
                     @elseif ( Auth::User()->userfrom === 'PNP')
                         <img src="{{ asset('images/police.png') }}" class="avatar img-fluid rounded" alt="">
                     @elseif ( Auth::User()->userfrom === 'BFP')
@@ -21,6 +26,7 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-end">
                     <a href="{{route('admin_profile')}}" class="dropdown-item">Profile</a>
+                    <a href="{{ route('settings.index') }}" class="dropdown-item">Settings</a>
                     <form action="{{ route('logout') }}" method="POST" class="d-flex" role="search">
                         @csrf
 
@@ -34,3 +40,13 @@
         </ul>
     </div>
 </nav>
+
+
+<script>
+$(document).ready(function(){
+    setInterval(function(){
+        $("#autorefresh").load(window.location.href + " #autorefresh")
+    }, 5000);
+});
+
+</script>

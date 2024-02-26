@@ -1,0 +1,39 @@
+body{
+    margin: 0px;
+    padding: 0px;
+    background-image: url('../images/bg-mdrrmo.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+    overflow: hidden;
+    }
+    
+    .loginform{
+        background-color: whitesmoke;
+        width: 30%;
+        height: auto;
+        margin: 0px auto;
+        padding: 25px 10px ;
+    }
+    
+    /* responsive */
+    @media screen and (max-width:600px){
+        .loginform{
+            width: 90%;
+            height: auto;
+            margin: 15% auto;
+        }
+    }
+    
+    @media (min-width:768px ) and (max-width:1200px){
+        
+        .loginform{
+            width: 70%;
+            height: auto;
+            margin: 15% auto;
+        }
+    }
+    
+    
+    

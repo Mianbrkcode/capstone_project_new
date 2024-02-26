@@ -30,12 +30,7 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        //validate all input fields
-        //take only vaild data
-        // if any input field is empty then show error on blade template using 
-        // @error('field name')
-        // {{ $message }}
-        // @enderror
+        
 
         $rules = [
             'responder_name' => 'required|string|max:100',
@@ -50,8 +45,7 @@ class AuthController extends Controller
 
         ];
         $request->validate($rules);
-        //first we write logic for registration
-        //we need some hash token for verification
+       
         $token = hash('sha256', time()); //we use time function to generate random string and sha256 is a hashing algorithm
 
 
@@ -66,11 +60,9 @@ class AuthController extends Controller
         $user->role = 'Super Admin';
 
 
-        //i don't work with validation in this video
-        //you can use validation and also confirm_password to match both password
+       
         $user->save();
 
-        //here we work on mail part logic
         //now we create a verification link
         //=================================
         $verificationLink = url('/verify/' . $token . '/' . $request->email . '/');

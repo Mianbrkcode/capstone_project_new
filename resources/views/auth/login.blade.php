@@ -1,93 +1,107 @@
+
 @extends('layouts.guest')
 
 @section('header')
-<title> E-LIGTAS | SIGN IN </title>
-@vite('resources/css/app.css')
+    
 
+<link rel="stylesheet" href="{{ asset('css/customlogin.css') }}">
+    <title> E-LIGTAS | Login </title>
 
 @endsection
 
 @section('content')
 
-{{-- login New --}}
-<div class="login-container h-screen flex justify-center items-center w-full">
-    <form action="{{ route('login') }}" method="POST">
-
-        {{-- Error Messages --}}
-
-        {{-- End of Error Messages --}}
-
-
-        @csrf
-        <div class="bg-white px-10 py-8 rounded-xl w-screen shadow-md max-w-sm">
-
-            {{-- logo --}}
-            <div class=" flex justify-center">
-                <img src="{{ url('/images/e-ligtas-removebg-preview (1).png') }}" alt="logo">
-            </div>
-            <hr class="mt-3">
-            {{-- end logo --}}
-
-
-            <div class="space-y-4">
-                <div>
-                    <label for="username" class="block mb-1 text-gray-600 font-semibold">Email or Username</label>
-                    <input type="username" name="username" id="username" placeholder="Email/Username" class="bg-indigo-50 px-4 py-2 outline-none rounded-md w-full" autocomplete="new-password @error('error') is-invalid @enderror" value="{{ old('email') }}" />
-                    @error('username')
-                    <div class="text-red-500">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <div>
-                    <label for="email" class="block mb-1 text-gray-600 font-semibold">Password</label>
-                    <input type="password" name="password" id="password" placeholder="Password" class="bg-indigo-50 px-4 py-2 outline-none rounded-md w-full @error('error') is-invalid @enderror" />
-                    @error('password')
-                    <div class="text-red-500">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <div class="mt-3 flex justify-between items-center">
-                    <div>
-                        <input type="checkbox" id="chckbox">
-                        <label for="chckbox">Remember me?</label>
-                    </div>
-                    <div>
-                        <a href="{{ route('forgotpassword') }}" class="text-blue-500 hover:text-blue-700 font-semibold">Forgot password</a>
-                    </div>
-                </div>
-                <!-- {{-- sign Up --}}
-                <div>
-                    <p>Dont have acount yet? <a href=" {{ route('register') }}" class="text-indigo-800 font-semibold">Sign Up</a></p>
-                </div> -->
-            </div>
-            <button type="submit" class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded tracking-wide w-full">SIGN IN</button>
+    <!--log in form here -->
+    <div class="loginform rounded-4">
+        {{-- log here --}}
+        <div class="d-flex justify-content-center">
+            <img src="{{ asset('images/e-ligtas-removebg-preview (1).png')}}" alt="logo">
         </div>
-    </form>
-</div>
+        <div class="container">
+            <form  action="{{ route('login') }}" method="POST">
+                @csrf
+                <div class="mb-3">
+                  <label for="username" class="form-label">Email or Username</label>
+                  <input type="username" name="username" class="form-control @error('username') is-invalid @enderror" id="username" placeholder="Email/Username" 
+                   value="{{ old('username') }}"
+                  />
+                  @error('username')
+                    <div class="text-danger">{{ $message }}</div>
+                  @enderror
 
+                </div>
+                <div class="mb-2">
+                  <label for="password" class="form-label">Password</label>
+                    <div class="input-group">
+                        <input type="password" name="password" id="password" class="form-control @error('password') is-invalid @enderror" aria-describedby="passwordHelpBlock" placeholder="Password">
+                        <span class="input-group-text" id="togglePassword">
+                            <i class="far fa-eye-slash"></i>
+                        </span>
+                    </div>
+                        @error('password')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                </div>
+                 <!-- 2 column grid layout -->
+                    <div class="row mb-4">
+                        <div class="col-md-6 ">
+                        <!-- Checkbox -->
+                        {{-- <div class="form-check mb-3 mb-md-0">
+                            <input class="form-check-input" type="checkbox"/>
+                            <label class="form-check-label" for="loginCheck"> Remember me </label>
+                        </div> --}}
+                        </div>
+
+                        <div class="col-md-6 text-end">
+                        <!-- Simple link -->
+                        <a href="{{ route('forgotpassword') }}">Forgot password?</a>
+                        </div>
+                    </div>
+                <button type="submit" class="btn btn-primary col-lg-12 col-12 mb-3">Login</button>
+              </form>
+         </div>
+     </div>
+ 
 @endsection
 
 @section('footer')
 
-{{-- <script>
-                    toastr.options = {
-                    positionClass: "toast-top-center"
-                    };
-                </script> --}}
+    @if (session()->has('success'))
+    <script>
+        toastr.options.showMethod = 'slideDown';
+        toastr.options.closeButton = true;
+        toastr.success("{{Session::get('success')}}");
+    </script>
+
+    @elseif (session()->has('error-msg'))
+    <script>
+        toastr.options.showMethod = 'slideDown';
+        toastr.options.closeButton = true;
+        toastr.error("{{Session::get('error-msg')}}");
+    </script>
+    @endif
+       
+    
+    {{-- show password --}}
+    <script>
+        const togglePassword = document.querySelector('#togglePassword');
+        const password = document.querySelector('#password');
+
+        togglePassword.addEventListener('click', () => {
+            // Toggle the password visibility
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+
+            // Toggle the eye icon
+            const iconClass = type === 'text' ? 'fa-eye' : 'fa-eye-slash';
+            togglePassword.innerHTML = `<i class='fas ${iconClass}'></i>`;
+        });
+    </script> 
 
 
-@if (session()->has('success'))
-<script>
-    toastr.options.showMethod = 'slideDown';
-    toastr.options.closeButton = true;
-    toastr.success("{{Session::get('success')}}");
-</script>
-
-@elseif (session()->has('error-msg'))
-<script>
-    toastr.options.showMethod = 'slideDown';
-    toastr.options.closeButton = true;
-    toastr.error("{{Session::get('error-msg')}}");
-</script>
-@endif
 @endsection
+
+
+
+    
+

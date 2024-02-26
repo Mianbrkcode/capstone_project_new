@@ -8,6 +8,7 @@ use App\Models\Hotline;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Report;
 
 
 
@@ -56,13 +57,14 @@ class HotlinesController extends Controller
             return response()->json($jsonData);
         }
 
-        return view('admin.contacts', $jsonData);
+        $totalActiveReport = Report::where('status','0')->count();
+        return view('admin.contacts', $jsonData , compact('totalActiveReport'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'hotline_number' => 'required',
+            'hotline_number' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:12',
             'user_from' => 'required',
         ]);
 
@@ -88,7 +90,7 @@ class HotlinesController extends Controller
     public function update(Request $request, Hotline $hotline)
     {
         $request->validate([
-            'hotline_number' => 'required',
+            'hotline_number' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:12',
             'user_from' => 'required',
         ]);
 

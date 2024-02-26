@@ -9,13 +9,15 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\Rule;
+use App\Models\Report;
 
 
 class AdminProfileController extends Controller
 {
     public function show(){
 
-        return view('admin.profile');
+        $totalActiveReport = Report::where('status','0')->count();
+        return view('admin.profile' ,compact('totalActiveReport'));
 
     }
 

@@ -26,129 +26,138 @@
             <div class="container-fluid">
 
                 <div class="my-3">
-                    <h4>Dashboard</h4>
+                    <h3>Dashboard</h3>
                 </div>
-               
-            <div class="row">
-                {{-- Cards Here --}}
-                <div class="col-12 col-md-6 d-flex">
-                    <div class="card flex-fill border-0">
-                        <div class="card-body py-4">
-                            <div class="d-flex align-items-start text-lg-center">
-                                <div class="flex-grow-1">
-                                    <h4 class="mb-2">
-                                        {{ $totalMedic}}
-                                    </h4>
-                                    <p class="mb-2">
-                                        Medical Related
-                                    </p>
-                                    <div class="mb-0">
-                                        <span class="text-muted">
-                                            This Month
-                                        </span>
+                
+                <div class="row">
+                    {{-- Cards Here --}}
+                    <div class="col-10 col-md-4 d-flex">
+                        <div class="card flex-fill border-0">
+                            <div class="card-body py-4">
+                                <div class="d-flex align-items-start text-lg-center">
+                                    <div class="flex-grow-1">
+                                        <h4 class="mb-2">
+                                            {{ $totalMedic}}
+                                        </h4>
+                                        <p class="mb-2">
+                                            Medical Related
+                                        </p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-12 col-md-6 d-flex">
-                    <div class="card flex-fill border-0">
-                        <div class="card-body py-4">
-                            <div class="d-flex align-items-start text-lg-center">
-                                <div class="flex-grow-1">
-                                    <h4 class="mb-2">
-                                        {{ $totalFire }}
-                                    </h4>
-                                    <p class="mb-2">
-                                        Fire
-                                    </p>
-                                    <div class="mb-0">
-                                        <span class="text-muted">
-                                            This Month
-                                        </span>
+                    <div class="col-10 col-md-4 d-flex">
+                        <div class="card flex-fill border-0">
+                            <div class="card-body py-4">
+                                <div class="d-flex align-items-start text-lg-center">
+                                    <div class="flex-grow-1">
+                                        <h4 class="mb-2">
+                                            {{ $totalFire }}
+                                        </h4>
+                                        <p class="mb-2">
+                                            Fire
+                                        </p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                    <div class="col-10 col-md-4 d-flex">
+                        <div class="card flex-fill border-0">
+                            <div class="card-body py-4">
+                                <div class="d-flex align-items-start text-lg-center">
+                                    <div class="flex-grow-1">
+                                        <h4 class="mb-2">
+                                            {{ $totalAccident }}
+                                        </h4>
+                                        <p class="mb-2">
+                                            Accidents
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-10 col-md-4 d-flex">
+                        <div class="card flex-fill border-0">
+                            <div class="card-body py-4">
+                                <div class="d-flex align-items-start text-lg-center">
+                                    <div class="flex-grow-1">
+                                        <h4 class="mb-2">
+                                            {{ $totalCrime }}
+                                        </h4>
+                                        <p class="mb-2">
+                                            Crimes
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-            <div class="row">
-                {{-- Cards Here --}}
-                <div class="col-12 col-md-6 d-flex">
-                    <div class="card flex-fill border-0">
-                        <div class="card-body py-4">
-                            <div class="d-flex align-items-start text-lg-center">
-                                <div class="flex-grow-1">
-                                    <h4 class="mb-2">
-                                        {{ $totalAccident }}
-                                    </h4>
-                                    <p class="mb-2">
-                                         Accidents
-                                    </p>
-                                    <div class="mb-0">
-                                        <span class="text-muted">
-                                            This Month
-                                        </span>
+                    <div class="col-10 col-md-4 d-flex">
+                        <div class="card flex-fill border-0">
+                            <div class="card-body py-4">
+                                <div class="d-flex align-items-start text-lg-center ">
+                                    <div class="flex-grow-1 ">
+                                        <h4 class="mb-2 ">
+                                            {{ $totalActiveReport }}
+                                        </h4>
+                                        <p class="mb-2">
+                                            Pending Reports
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                    </div>
+                    <div class="col-10 col-md-4 d-flex">
+                        <div class="card flex-fill border-0">
+                            <div class="card-body py-4">
+                                <div class="d-flex align-items-start text-lg-center ">
+                                    <div class="flex-grow-1 ">
+                                        <h4 class="mb-2 ">
+                                            {{ $totalAcceptedReport }}
+                                        </h4>
+                                        <p class="mb-2">
+                                            Accepted Reports
+                                        </p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-md-6 d-flex">
-                    <div class="card flex-fill border-0">
-                        <div class="card-body py-4">
-                            <div class="d-flex align-items-start text-lg-center ">
-                                <div class="flex-grow-1 ">
-                                    <h4 class="mb-2">
-                                        {{ $totalCrime }}
-                                    </h4>
-                                    <p class="mb-2">
-                                        Crimes
-                                    </p>
-                                    <div class="mb-0">
-                                        <span class="text-muted">
-                                            Since Last Month
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+           
             </div>
-        </div>
 
         <div class="container-fluid">
             <div class="row">
-                
-                <div class="col">
-                    <div class="container">
-                        <div class="card">
-                            <div class="card-header">
-                                <p>
-                                    <b> Number of Emergencies per Sectors/Barangay</b>
-                                </p>
-                            </div>
-                            <div class="card-body">
-                                    <canvas id="mychart2" style="width: 30px; height: 30px">
+
+                <div class="col-10 col-md-4 d-flex">
+                    <div class="card flex-fill border-0">
+                        <div class="card-header">
+                            <p>
+                                <b>Total Number of Emergency Reports by Emergency Types</b>
+                            </p>
+                        </div>
+                        <div class="card-body">
+                                <div class="card-body">
+                                    <canvas id="mychart2">
                                         <p>Total Sum of Accepted Emergency Reports per Sectors and Barangay</p>
                                     </canvas>
-                            </div>
+                                </div>
                         </div>
                     </div>
                 </div>
                 
-                
-                <div class="col">
-                    <div class="container">
-                        <div class="card">
+                @if (Auth::user()->userfrom == 'MDRRMO')
+                    <div class="col-20 col-md-8 d-flex">
+                        <div class="card flex-fill border-0">
                             <div class="card-header">
                                 <p>
-                                    <b> Total Number of Emergencies by Category</b>
+                                    <b> Total Number of Emergencie Rescued by Sectors / Barangays </b>
                                 </p>
                             </div>
                             <div class="card-body">
@@ -158,10 +167,9 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                @endif
             </div>
         </div>
-
         </main>
         
         <footer class="footer">
@@ -194,6 +202,7 @@
     </div>
 </div>
 
+
 @endsection
 
 @section('scripts')
@@ -212,18 +221,20 @@ var ctx = document.getElementById('mychart').getContext('2d');
 var myChart = new Chart(ctx, {
     type: 'bar',
     data: {
-        labels: ['Medical', 'Crime', 'Accidents', 'Fire'],
+        labels: ['BFP', 'MDRRMO', 'PNP', 'BAGBAGUIN', 'BALASING', 'BUENAVISTA', 'BULAC', 'CAMANGYANAN', 
+        'CATMON', 'CAY POMBO', 'CAYSIO', 'GUYONG', 'LALAKHAN', 'M. SAPA', 'MAHABANG PARANG',  'MANGGAHAN', 
+        'PARADA', 'POBLACION', 'PULONG BUHANGIN', 'SAN GABRIEL', 'SAN JOSE PATAG', 'SAN VICENTE', 'SANTA CLARA',
+        'SANTA CRUZ', 'SILANGAN', 'STO. TOMAS', 'TUMANA' ],
         datasets: [{
-            data: [{{ $totalMedic}}, {{ $totalCrime }}, {{ $totalAccident }}, {{ $totalFire }} ],
+            data: [{{ $bfp}}, {{ $mdrrmo }}, {{ $pnp }}, {{ $bagbaguin }}, {{ $balasing }}, {{ $buenavista }}, {{ $bulac }}, {{ $camangyanan }}, 
+            {{ $catmon }}, {{ $caypombo }}, {{ $caysio }}, {{ $guyong }}, {{ $lalakhan }}, {{ $magasawangsapa }}, {{ $mahabangparang }}, {{ $manggahan }}, {{ $parada }}, 
+            {{ $poblacion }}, {{ $pulongbuhangin }}, {{ $sangabriel }}, {{ $sanjosepatag }}, {{ $sanvicente }}, {{ $santaclara }}, {{ $santacruz }}, {{ $silangan }}, {{ $santotomas }},
+            , {{ $tumana }} ],
             backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
+                'rgb(60, 108, 216)'
             ],
             borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
+                'rgb(60, 108, 216)'
             ],
             borderWidth: 1
         }]
@@ -234,7 +245,7 @@ var myChart = new Chart(ctx, {
             y: {
                 beginAtZero: true
             }
-        }
+        },
     }
 });
 </script>
@@ -244,33 +255,52 @@ var myChart = new Chart(ctx, {
     var ctx = document.getElementById('mychart2').getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'pie',
+        plugins: [ChartDataLabels],
         data: {
             labels: ['Medical', 'Crime', 'Accidents', 'Fire'],
             datasets: [{
                 data: [{{ $totalMedic}}, {{ $totalCrime }}, {{ $totalAccident }}, {{ $totalFire }}],
                 backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
+                    'rgb(13, 146, 118)',
+                    'rgb(60, 108, 216)',
+                    'rgb(255, 234, 167)',
+                    'rgb(255, 104, 104)',
                 ],
                 borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
+                    'rgb(13, 146, 118)',
+                    'rgb(54, 82, 173)',
+                    'rgb(255, 234, 167)',
+                    'rgb(255, 104, 104)',
                 ],
                 borderWidth: 1
             }]
         },
         options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
+        responsive: true,
+        scales: {
+            y: {
+                beginAtZero: true
             }
         },
-        
-    });
+        plugins: {
+            datalabels: {
+                color: 'black',
+                font: {
+                    weight: 'bold'
+                },
+                backgroundColor: function(context) {
+                    return 'rgb(255, 255, 255, 0.8)'; 
+                },
+                borderRadius: 4, // Optional: Set border radius for the background
+                padding: { // Optional: Add padding around the labels
+                    top: 4,
+                    right: 8,
+                    bottom: 4,
+                    left: 8
+                }
+            }
+        }
+    }
+});
     </script>
-
 @endsection

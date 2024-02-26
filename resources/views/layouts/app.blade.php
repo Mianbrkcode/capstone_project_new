@@ -35,7 +35,7 @@
     {{-- yajra setup --}}
     <link rel="stylesheet" href="{{ asset('css/datatables.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
-    @livewireStyles
+
     @yield('header')
 </head>
 
@@ -48,7 +48,7 @@
 
 
     @yield('content')
-    @livewireScripts
+  
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
     <script src="{{ asset('js/datatables.min.js') }}"></script>
@@ -57,6 +57,8 @@
     <script src="{{ asset('js/scripts.js') }}"></script>
     <script src="{{ asset('js/customtable.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js" integrity="sha512-JPcRR8yFa8mmCsfrw4TNte1ZvF1e3+1SdGMslZvmrzDYxS69J7J49vkFL8u6u8PlPJK+H3voElBtUCzaXj+6ig==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     {{-- <script src="{{ asset('js/chart.min.js') }}"></script> --}}
     {{-- <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>

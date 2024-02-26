@@ -49,7 +49,7 @@ class PasswordController extends Controller
 
         // Check if 'password' and 'confirm_password' match
         if ($request->input('password') !== $request->input('confirm_password')) {
-            return redirect()->back()->with('error-msg', 'The new password and confirmation do not match');
+            return redirect()->back()->with('error-msg', 'The new password and confirmation does not match');
         }
 
         // Update the password

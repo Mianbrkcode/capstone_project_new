@@ -11,7 +11,7 @@ class Report extends Model
     public $timestamps = false;
     protected $primaryKey = 'report_id';
     protected $table = "reports";
-    protected $fillabe =[
+    protected $fillable =[
         'dateandTime',
         'uid',
         'emergency_type',
@@ -26,4 +26,10 @@ class Report extends Model
         'residentProfile',
         'userfrom'
     ];
+
+    public function SpotReport()
+    {
+        return $this->hasOne(SpotReport::class , 'reportId' , 'report_id');
+    }
+
 }

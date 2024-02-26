@@ -16,7 +16,7 @@ class Sector
     public function handle(Request $request, Closure $next): Response
     {
         
-        if($request->user() && $request->user()->role == 'Admin')
+        if($request->user() && $request->user()->role == 'Rescuer')
         {
             return $next($request);
         }

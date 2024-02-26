@@ -48,7 +48,7 @@
 
                 <div class="col-lg-12 m-3">
                     <div class="pull-left">
-                        <a class="btn btn-danger" href="{{ route('users.index') }}"><i class="bi bi-arrow-left-square-fill"></i> BACK</a>
+                        <a class="btn btn-primary" href="{{ route('users.index') }}"><i class="bi bi-arrow-left-square-fill"></i> BACK</a>
                     </div>
                 </div>
 
@@ -73,22 +73,25 @@
                             <form action="{{ route('users.update',$user->id) }}" method="POST" enctype="multipart/form-data" id="form1">
                                 @csrf
                                 @method('PATCH')
+                                
                             </form>
                             {{-- first form end --}}
-
-
-                            {{-- Third form --}}
-
-                            <form action="{{ route('mail.passreset', $user->id) }}" method="POST" id="form3">
-
+                            
+                            {{-- Second form --}}
+                            <form action="{{ route('user.verify',$user->id) }}" method="POST" enctype="multipart/form-data" id="form2">
                                 @csrf
                                 @method('PATCH')
+                                
+                            </form>
+                            {{-- end of second form --}}
 
-                                <input form="form3" type="hidden" name="responder_name" value="{{ $user->responder_name }}">
+                            {{-- Third form --}}
+                            <form action="{{ route('mail.passreset', $user->id) }}" method="POST" id="form3">
+                                @csrf
+                                @method('PATCH')
                                 <input form="form3" type="hidden" name="email" value="{{ $user->email }}">
                             </form>
-
-
+                            {{-- End of Third Form --}}
                             <div class="row form-group justify-content-start m-3">
                                 <div class="col-6 col-md-4">
                                     <label for="name" class="form-label">Full Name:</label>
@@ -111,31 +114,65 @@
                                     @enderror
                                 </div>
 
+                                @if (Auth::user()->userfrom == 'MDRRMO')
+                                    <div class="col-6 col-md-4">
+                                        <label class="form-label" for="userfrom">User From</label>
+                                            <select form="form1" class="form-select @error('userfrom') is-invalid @enderror" name="userfrom" id="userfrom">
+                                                <option value="{{ $user->userfrom }}">{{ $user->userfrom }}</option>
+                                                        <option value="MDRRMO">MDRRMO</option>
+                                                        <option value="BFP">BFP</option>
+                                                        <option value="PNP">PNP</option>
+                                                        <option value="BAGBAGUIN">BAGBAGUIN</option>
+                                                        <option value="BALASING">BALASING</option>
+                                                        <option value="BUENAVISTA">BUENAVISTA</option>
+                                                        <option value="BULAC">BULAC</option>
+                                                        <option value="CAMANGYANAN">CAMANGYANAN</option>
+                                                        <option value="CATMON">CATMON</option>
+                                                        <option value="CAY POMBO">CAY POMBO</option>
+                                                        <option value="CAYSIO">CAYSIO</option>
+                                                        <option value="GUYONG">GUYONG</option>
+                                                        <option value="LALAKHAN">LALAKHAN</option>
+                                                        <option value="MAG ASAWANG SAPA">MAG ASAWANG SAPA</option>
+                                                        <option value="MAHABANG PARANG">MAHABANG PARANG</option>
+                                                        <option value="MANGGAHAN">MANGGAHAN</option>
+                                                        <option value="PARADA">PARADA</option>
+                                                        <option value="POBLACION">POBLACION</option>
+                                                        <option value="PULONG BUHANGIN">PULONG BUHANGIN</option>
+                                                        <option value="SAN GABRIEL">SAN GABRIEL</option>
+                                                        <option value="SAN JOSE PATAG">SAN JOSE PATAG</option>
+                                                        <option value="SAN VICENTE">SAN VICENTE</option>
+                                                        <option value="SANTA CLARA">SANTA CLARA</option>
+                                                        <option value="SANTA CRUZ">SANTA CRUZ</option>
+                                                        <option value="SILANGAN">SILANGAN</option>
+                                                        <option value="STO. TOMAS">STO. TOMAS</option>
+                                                        <option value="TUMANA">TUMANA</option>
+                                            </select>
+                                        @error('userfrom')
+                                        <div class="text-danger" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </div>
+                                        @enderror
+                                    </div>
+                                @elseif (Auth::user()->userfrom != 'MDRRMO')
                                 <div class="col-6 col-md-4">
                                     <label class="form-label" for="userfrom">User From</label>
-                                    <select form="form1" class="form-select @error('userfrom') is-invalid @enderror" name="userfrom" id="userfrom">
-                                        <option value="{{ $user->userfrom }}">{{ $user->userfrom }}</option>
-                                        <option value="MDRRMO">MDRRMO</option>
-                                        <option value="BFP">BFP</option>
-                                        <option value="PNP">PNP</option>
-                                        <option value="CAY POMBO">CAY POMBO</option>
-                                        <option value="CAYSIO">CAYSIO</option>
-                                        <option value="CATMON">CATMON</option>
-                                        <option value="GUYONG">GUYONG</option>
-                                    </select>
+                                        <select form="form1" class="form-select @error('userfrom') is-invalid @enderror" name="userfrom" id="userfrom">
+                                            <option value="{{ $user->userfrom }}">{{ $user->userfrom }}</option> 
+                                        </select>
                                     @error('userfrom')
                                     <div class="text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </div>
                                     @enderror
                                 </div>
+                                @endif
 
                                 <div class="col-6 col-md-4">
                                     <label for="role" class="form-label">Role:</label>
                                     <select form="form1" class="form-select   @error('role') is-invalid @enderror" name="role" id="role">
                                         <option value="{{ $user->role }}">{{ $user->role }}</option>
                                         <option value="Admin">Admin</option>
-                                        <option value="Super Admin">Super Admin</option>
+                                        <option value="Rescuer">Rescuer</option>
                                     </select>
                                     @error('role')
                                     <div class="text-danger" role="alert">
@@ -145,9 +182,15 @@
                                 </div>
                             </div>
 
-                            <div class="row form-group justify-content-start m-3">
-                                <div class="row justify-content-center mt-5">
-                                    <button form="form1" type="submit" class="btn btn-success col-3"><i class="bi bi-check-square-fill"></i> SUBMIT</button>
+                            <div class="row form-group justify-content-center m-3">
+                                <div class="col-6">
+                                    <button form="form1" type="submit" class="btn btn-success"><i class="bi bi-check-square-fill"></i> Save changes</button>
+                                    <button form="form3" id="resetPasswordBtn" type="button" class="btn btn-dark"><i class="bi bi-arrow-repeat"></i> Reset password</button>
+                                    
+                                    @if( $user->verified == 'pending')
+                                        <button form="form2" id="verifyUserButton" type="button" class="btn btn-primary"><i class="bi bi-patch-check-fill"></i>Verify User</button>
+                                    @endif
+
                                 </div>
                             </div>
 
@@ -178,9 +221,6 @@
                             <li class="list-inline-item">
                                 <a href="#" class="text-muted">Terms</a>
                             </li>
-                            <li class="list-inline-item">
-                                <a href="#" class="text-muted">Booking</a>
-                            </li>
                         </ul>
                     </div>
                 </div>
@@ -202,26 +242,69 @@
     @endif
 </script>
 
+{{-- <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('resetPasswordBtn').addEventListener('click', function () {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'This will reset the password of this user and will be send to his/her email',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, reset it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('form3').submit();
+                }
+            });
+        });
+    });
+</script> --}}
+
 <script>
-    // document.addEventListener('DOMContentLoaded', function () {
-    //     document.getElementById('resetPasswordBtn').addEventListener('click', function () {
-    //         Swal.fire({
-    //             title: 'Are you sure?',
-    //             text: 'This will reset your password and will be send to your Email!',
-    //             icon: 'warning',
-    //             showCancelButton: true,
-    //             confirmButtonColor: '#3085d6',
-    //             cancelButtonColor: '#d33',
-    //             confirmButtonText: 'Yes, reset it!'
-    //         }).then((result) => {
-    //             if (result.isConfirmed) {
-    //                 // If the user clicks "Yes, update it!", trigger the form submission
-    //                 document.getElementById('form3').submit();
-    //             }
-    //         });
-    //     });
-    // });
+    document.getElementById('resetPasswordBtn').addEventListener('click', function (event) {
+    event.preventDefault(); // Prevent the default form submission behavior
+
+    // Show SweetAlert2 confirmation dialog
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'You want to reset the password of this user!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, reset it'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // If user clicks "Yes, submit it!" in the confirmation dialog, submit the form
+            document.getElementById('form3').submit();
+        }
+    });
+});
 </script>
 
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('verifyUserButton').addEventListener('click', function () {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'You want to verify this user!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // If the user clicks "Yes, update it!", trigger the form submission
+                    document.getElementById('form2').submit();
+                }
+            });
+        });
+    });
+</script>
 
 @endsection

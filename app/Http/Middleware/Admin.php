@@ -23,7 +23,7 @@ class Admin
 
         // return $next($request);
 
-        if($request->user() && $request->user()->role == 'Super Admin')
+        if($request->user() && $request->user()->role == 'Admin')
         {
             return $next($request);
         }

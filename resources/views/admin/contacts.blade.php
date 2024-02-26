@@ -4,6 +4,7 @@
 @section('header')
 
 @section('title')
+    E-ligtas | Hotlines
 @endsection
 
 @endsection
@@ -23,7 +24,7 @@
             <div class="container-fluid mt-3">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb mt-3">
-                        <li class="breadcrumb-item"><a href="{{ route('admin_dashboard') }}">Dashboard</a></li>
+                        <li class="breadcrumb-item text-muted "><a class="text-muted" href="{{ route('admin_dashboard') }}">Dashboard</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Hotlines</li>
                     </ol>
                 </nav>
@@ -32,12 +33,12 @@
             <div class="container-fluid">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center mb-5">
-                        <h4 class="m-0">HOTLINES</h4>
+                        <h3 class="m-0">HOTLINES</h3>
                         <button type="button" class="btn btn-success m-0" data-bs-toggle="modal" data-bs-target="#contactModal">
                             <i class="bi bi-plus-square-fill"></i> ADD
                         </button>
                     </div>
-                    <div class="card-body table-responsive">
+                    <div class="card-body">
                         <table class="table table-striped table-bordered" id="hotline-table">
                             <thead>
                                 <tr>

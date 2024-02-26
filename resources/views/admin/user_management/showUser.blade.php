@@ -47,9 +47,9 @@
                 
                 <div class="col-lg-12 m-3">
                     <div class="pull-left">
-                        <a class="btn btn-primary" href="{{ route('users.index') }}" > Back</a>
+                        <a class="btn btn-primary" href="{{ route('users.index') }}"><i class="bi bi-arrow-left-square-fill"></i> BACK</a>
                     </div>
-                </div> 
+                </div>
                
                 <div class="container-fluid">
                     <div class="card">
